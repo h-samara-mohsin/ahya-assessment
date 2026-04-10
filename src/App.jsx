@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Sidebar from './components/Sidebar/Sidebar'
 import Header from './components/Header/Header'
+import Dashboard from './components/Dashboard/Dashboard'
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
       <div style={{flex:1, display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
         <Header />
         <main style={{flex:1 , overflowY:'auto',padding:'24px'}}>
-          {/* Main content goes here */}
+          <Dashboard />
         </main>
       </div>
     </div>

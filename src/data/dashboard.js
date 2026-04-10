@@ -1,7 +1,32 @@
+import revenueIcon from '../assets/icon-revenue.svg'
+import usersIcon from '../assets/icon-users.svg'
+import conversionIcon from '../assets/icon-conversion.svg'
+
 export const stats = [
-  { id: 1, label: 'Total Revenue', value: '$45,231.00', change: '+12.5%', positive: true, icon: 'revenue' },
-  { id: 2, label: 'Active Users', value: '12,842', change: '+8.2%', positive: true, icon: 'users' },
-  { id: 3, label: 'Conversion Rate', value: '3.4%', change: '-1.4%', positive: false, icon: 'conversion' },
+  { 
+    id: 1, 
+    label: 'Total Revenue', 
+    value: '$45,231.00', 
+    change: '+12.5%', 
+    positive: true, 
+    icon: revenueIcon    // ← actual SVG path now
+  },
+  { 
+    id: 2, 
+    label: 'Active Users', 
+    value: '12,842', 
+    change: '+8.2%', 
+    positive: true, 
+    icon: usersIcon 
+  },
+  { 
+    id: 3, 
+    label: 'Conversion Rate', 
+    value: '3.4%', 
+    change: '-1.4%', 
+    positive: false, 
+    icon: conversionIcon 
+  },
 ]
 
 export const chartData = [
