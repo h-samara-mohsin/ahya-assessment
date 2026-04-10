@@ -1,5 +1,6 @@
 import StatCards from './StatCards'
 import './Dashboard.css'
+import RevenueSection from './RevenueSection'
 
 export default function Dashboard() {
   return (
@@ -21,7 +22,7 @@ export default function Dashboard() {
       <StatCards />
 
       {/* Revenue Chart + Insight Card */}
-      {/* <RevenueSection /> */}
+      <RevenueSection />
 
       {/* Transactions Table */}
       {/* <TransactionsTable /> */}

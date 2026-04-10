@@ -30,13 +30,13 @@ export const stats = [
 ]
 
 export const chartData = [
-  { day: 'MON', current: 40, previous: 30 },
-  { day: 'TUE', current: 55, previous: 45 },
-  { day: 'WED', current: 75, previous: 60 },
-  { day: 'THU', current: 65, previous: 70 },
-  { day: 'FRI', current: 90, previous: 55 },
-  { day: 'SAT', current: 80, previous: 65 },
-  { day: 'SUN', current: 70, previous: 75 },
+  { day: 'MON', current: 20, previous: 40 },
+  { day: 'TUE', current: 40, previous: 65 },
+  { day: 'WED', current: 30, previous: 45 },
+  { day: 'THU', current: 60, previous: 50 },
+  { day: 'FRI', current: 70, previous: 75 },
+  { day: 'SAT', current: 90, previous: 65 },
+  { day: 'SUN', current: 80, previous: 75 },
 ]
 
 export const transactions = [
