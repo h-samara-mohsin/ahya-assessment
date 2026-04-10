@@ -1,3 +1,7 @@
+/* 
+  Design tokens extracted from provided assessment mockup (Dashboard - Desktop.jpg)
+  Organized as CSS custom properties for maintainability and theming
+*/
 :root {
   --primary: #3d3db4;
   --primary-light: #f0f0ff;
