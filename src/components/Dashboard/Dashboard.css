@@ -53,3 +53,19 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 20px;
+    gap: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 16px;
+    gap: 12px;
+  }
+}

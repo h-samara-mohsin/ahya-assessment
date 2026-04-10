@@ -11,10 +11,9 @@ const iconMap = {
   settings: Settings,
 }
 
-export default function Sidebar({ activeNav, setActiveNav, isCollapsed, setIsCollapsed }) {
-    console.log('Sidebar render - activeNav:', activeNav, 'isCollapsed:', isCollapsed)
+export default function Sidebar({ activeNav, setActiveNav, isCollapsed, setIsCollapsed ,mobileOpen, setMobileOpen}) {
     return (
-        <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+        <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}  ${mobileOpen ? 'mobile-open' : ''}`}>
             <div className="sidebar-logo">
                 <div className="logo-icon">
                     <Grid2x2 size={20} />
