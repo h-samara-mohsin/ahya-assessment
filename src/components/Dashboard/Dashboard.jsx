@@ -1,6 +1,7 @@
 import StatCards from './StatCards'
 import './Dashboard.css'
 import RevenueSection from './RevenueSection'
+import TransactionsTable from './TransactionsTable'
 
 export default function Dashboard() {
   return (
@@ -19,13 +20,17 @@ export default function Dashboard() {
       </div>
 
       {/* Stat Cards */}
-      <StatCards />
+      <section>
+        <StatCards />
+      </section>
 
       {/* Revenue Chart + Insight Card */}
-      <RevenueSection />
+      <section><RevenueSection /></section>
 
       {/* Transactions Table */}
-      {/* <TransactionsTable /> */}
+      <section>
+        <TransactionsTable />
+      </section>
 
     </div>
   )
