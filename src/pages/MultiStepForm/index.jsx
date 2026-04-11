@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './MultiStepForm.css'
 import StepIndicator from './StepIndicator'
 import Step1PersonalInfo from './Step1PersonalInfo'
@@ -101,6 +101,13 @@ export default function MultiStepForm() {
         setCurrentStep(p => p + 1)
     }
 
+    function handleBack() {
+        setCurrentStep((prev) => {
+            if (prev > 1) return prev - 1
+            return prev
+        })
+    }
+
     const handleSubmit = () => {
         setSubmitted(true)
     }
@@ -117,12 +124,21 @@ export default function MultiStepForm() {
         )
     }
 
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && currentStep < 3) handleNext()
+            if (e.key === 'Escape' && currentStep > 1) handleBack()
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+
+        // cleanup — remove listener when component unmounts
+        return () => document.removeEventListener('keydown', handleKeyDown)
+    }, [currentStep, formData, touched])  // re-run when these change
+
     return (
         <div className="form-page">
-            <div className="form-card" onKeyDown={e => {
-                if (e.key === 'Enter' && currentStep < 3) handleNext()
-                if (e.key === 'Escape' && currentStep > 1) handleBack()
-            }}>
+            <div className="form-card">
 
                 <div className="form-card-header">
                     <h2 className="form-title">User Onboarding</h2>
@@ -156,7 +172,7 @@ export default function MultiStepForm() {
                     {currentStep > 1 && (
                         <button
                             className="btn-back"
-                            onClick={() => setCurrentStep(p => p - 1)}
+                            onClick={handleBack}
                         >
                             ← Back
                         </button>
