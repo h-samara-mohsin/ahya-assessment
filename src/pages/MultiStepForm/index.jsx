@@ -119,7 +119,10 @@ export default function MultiStepForm() {
 
     return (
         <div className="form-page">
-            <div className="form-card">
+            <div className="form-card" onKeyDown={e => {
+                if (e.key === 'Enter' && currentStep < 3) handleNext()
+                if (e.key === 'Escape' && currentStep > 1) handleBack()
+            }}>
 
                 <div className="form-card-header">
                     <h2 className="form-title">User Onboarding</h2>
