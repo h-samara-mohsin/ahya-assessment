@@ -4,6 +4,7 @@ import StepIndicator from './StepIndicator'
 import Step1PersonalInfo from './Step1PersonalInfo'
 import Step2Preferences from './Step2Preferences'
 import Step3Review from './Step3Review'
+import SuccessState from './SuccessState'
 
 export default function MultiStepForm() {
     const [currentStep, setCurrentStep] = useState(1)
@@ -19,6 +20,7 @@ export default function MultiStepForm() {
         experience: 50,
         notification: '',
     })
+    const [submitted, setSubmitted] = useState(false)
 
     const handleChange = (field, value) => {
         const updated = { ...formData, [field]: value }
@@ -99,6 +101,22 @@ export default function MultiStepForm() {
         setCurrentStep(p => p + 1)
     }
 
+    const handleSubmit = () => {
+        setSubmitted(true)
+    }
+
+    if (submitted) {
+        return (
+            <SuccessState onReset={() => {
+                setSubmitted(false)
+                setCurrentStep(1)
+                setFormData({ name: '', email: '', phone: '', tags: [], experience: 50, notification: '' })
+                setTouched({})
+                setErrors({})
+            }} />
+        )
+    }
+
     return (
         <div className="form-page">
             <div className="form-card">
@@ -152,7 +170,7 @@ export default function MultiStepForm() {
                     )}
 
                     {currentStep === 3 && (
-                        <button className="btn-submit">
+                        <button className="btn-submit" onClick={handleSubmit}>
                             Submit ✓
                         </button>
                     )}
@@ -161,4 +179,5 @@ export default function MultiStepForm() {
             </div>
         </div>
     )
+
 }
