@@ -5,6 +5,8 @@ import Step1PersonalInfo from './Step1PersonalInfo'
 
 export default function MultiStepForm() {
     const [currentStep, setCurrentStep] = useState(1)
+    const [errors, setErrors] = useState({})
+    const [touched, setTouched] = useState({})
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -12,11 +14,40 @@ export default function MultiStepForm() {
     })
 
     const handleChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }))
+        const updated = { ...formData, [field]: value }
+        setFormData(updated)
+
+        // if field was already touched, re-validate on every keystroke
+        if (touched[field]) {
+            const result = validateStep1(updated)
+            setErrors(result)
+        }
     }
+
+    const validateStep1 = (data) => {
+        const errors = {}
+
+        if (!data.name.trim())
+            errors.name = 'Full name is required'
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+            errors.email = 'Please enter a valid email address'
+
+        if (!/^\+?[\d\s\-\(\)]{10,}$/.test(data.phone))
+            errors.phone = 'Please enter a valid phone number'
+
+        return errors
+    }
+
+    const handleBlur = (field) => {
+        // mark field as touched
+        setTouched(prev => ({ ...prev, [field]: true }))
+        // validate and set errors
+        const result = validateStep1(formData)
+        setErrors(result)
+    }
+
+    const isStep1Valid = Object.keys(validateStep1(formData)).length === 0
 
     return (
         <div className="form-page">
@@ -32,7 +63,10 @@ export default function MultiStepForm() {
                 <div className="form-body">
                     {currentStep === 1 && (<Step1PersonalInfo
                         formData={formData}
+                        errors={errors}
+                        touched={touched}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                     />)}
                     {currentStep === 2 && <p>Step 2 — Preferences</p>}
                     {currentStep === 3 && <p>Step 3 — Review</p>}
@@ -52,6 +86,7 @@ export default function MultiStepForm() {
                         <button
                             className="btn-next"
                             onClick={() => setCurrentStep(p => p + 1)}
+                            disabled={currentStep === 1 && !isStep1Valid}
                         >
                             Next →
                         </button>
