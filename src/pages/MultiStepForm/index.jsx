@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './MultiStepForm.css'
+import StepIndicator from './StepIndicator'
 
 export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -12,6 +13,8 @@ export default function MultiStepForm() {
           <h2 className="form-title">User Onboarding</h2>
           <p className="form-subtitle">Complete your profile in 3 simple steps</p>
         </div>
+
+        <StepIndicator currentStep={currentStep} />
 
         <div className="form-body">
           {currentStep === 1 && <p>Step 1 — Personal Info</p>}
