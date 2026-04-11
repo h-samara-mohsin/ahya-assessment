@@ -3,6 +3,7 @@ import './MultiStepForm.css'
 import StepIndicator from './StepIndicator'
 import Step1PersonalInfo from './Step1PersonalInfo'
 import Step2Preferences from './Step2Preferences'
+import Step3Review from './Step3Review'
 
 export default function MultiStepForm() {
     const [currentStep, setCurrentStep] = useState(1)
@@ -126,7 +127,8 @@ export default function MultiStepForm() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />}
-                    {currentStep === 3 && <p>Step 3 — Review</p>}
+                    {currentStep === 3 && (<Step3Review formData={formData} />
+                    )}
                 </div>
 
                 <div className="form-footer">
