@@ -86,3 +86,41 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* personal info css */
+.step-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.field-input {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+  background: var(--white);
+}
+
+.field-input:focus {
+  border-color: var(--primary);
+}
+
+.field-input::placeholder {
+  color: var(--text-muted);
+}
