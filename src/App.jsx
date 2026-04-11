@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Sidebar from './components/Sidebar/Sidebar'
 import Header from './components/Header/Header'
 import Dashboard from './pages/Dashboard/Dashboard'
+import MultiStepForm from './pages/MultiStepForm'
 
 
 function App() {
@@ -26,7 +27,8 @@ function App() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <Header onMenuToggle={() => setMobileOpen(!mobileOpen)} />
         <main style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
-          <Dashboard />
+          {activeNav === 'dashboard' && <Dashboard />}
+          {activeNav === 'users' && <MultiStepForm />}
         </main>
       </div>
     </div>
