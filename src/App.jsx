@@ -4,6 +4,7 @@ import Header from './components/Header/Header'
 import Dashboard from './pages/Dashboard/Dashboard'
 import MultiStepForm from './pages/MultiStepForm'
 import Products from './pages/Products'
+import ComponentLibrary from './pages/ComponentLibrary'
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           {activeNav === 'dashboard' && <Dashboard />}
           {activeNav === 'users' && <MultiStepForm />}
           {activeNav === 'analytics' && <Products />}
+          {activeNav === 'reports' && <ComponentLibrary />}
         </main>
       </div>
     </div>
