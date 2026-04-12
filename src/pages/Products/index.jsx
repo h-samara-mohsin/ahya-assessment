@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
 import './Products.css'
 import ProductSkeleton from "./ProductSkeleton"
+import useDebounce from "../../hooks/useDebounce"
 
 export default function Products() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [search, setSearch] = useState('')
+    const debounceSearch = useDebounce(search, 500)
 
     const fetchProducts = () => {
         setLoading(true)
@@ -28,7 +30,7 @@ export default function Products() {
     }
 
     const filteredProducts = products.filter(p =>
-        p.title.toLowerCase().includes(search.toLowerCase())
+        p.title.toLowerCase().includes(debounceSearch.toLowerCase())
     )
 
     useEffect(() => {
@@ -44,13 +46,26 @@ export default function Products() {
                 </p>
             </div>
 
-            <input
-                type="text"
-                placeholder="Search products..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                style={{ padding: '8px', marginBottom: '16px', width: '300px' }}
-            />
+            <div className="products-toolbar">
+                <div className="search-bar">
+                    <span className="search-icon">🔍</span>
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search products..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                    {search && (
+                        <button
+                            className="search-clear"
+                            onClick={() => setSearch('')}
+                        >
+                            ✕
+                        </button>
+                    )}
+                </div>
+            </div>
 
             <div className="products-grid">
                 {loading && <ProductSkeleton />}
