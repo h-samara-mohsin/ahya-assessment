@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Header from './components/Header/Header'
 import Dashboard from './pages/Dashboard/Dashboard'
 import MultiStepForm from './pages/MultiStepForm'
+import Products from './pages/Products'
 
 
 function App() {
