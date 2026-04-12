@@ -3,6 +3,8 @@ import hamburgerIcon from '../../assets/icon-hamburger.svg'
 import bellIcon from '../../assets/icon-bell.svg'
 import './Header.css'
 import { useState } from "react";
+import avatar from '../../assets/User.png'
+
 
 export default function Header({ onMenuToggle }) {
     const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -30,7 +32,7 @@ export default function Header({ onMenuToggle }) {
                             <span className="user-role">Chief Curator</span>
                         </div>
                         <div className="avatar">
-                            <img src="/src/assets/User.png" alt="avatar" />
+                            <img src={avatar} alt="avatar" />
                             <span className="avatar-dot" />
                         </div>
                         <ChevronDown
