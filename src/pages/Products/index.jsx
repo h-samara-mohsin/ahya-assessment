@@ -8,7 +8,10 @@ export default function Products() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [search, setSearch] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('All')
+
     const debounceSearch = useDebounce(search, 500)
+    const categories = ['All', ...new Set(products.map(p => p.category))]
 
     const fetchProducts = () => {
         setLoading(true)
@@ -29,8 +32,11 @@ export default function Products() {
             })
     }
 
-    const filteredProducts = products.filter(p =>
-        p.title.toLowerCase().includes(debounceSearch.toLowerCase())
+    const filteredProducts = products.filter(p =>{
+        const matchesSearch = p.title.toLowerCase().includes(debounceSearch.toLowerCase())
+        const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory
+        return matchesSearch && matchesCategory
+    }
     )
 
     useEffect(() => {
@@ -64,6 +70,19 @@ export default function Products() {
                             ✕
                         </button>
                     )}
+                </div>
+
+                {/* category chips */}
+                <div className="category-chips">
+                    {categories.map(cat => (
+                        <button
+                        key={cat}
+                        className={`chip ${selectedCategory === cat ? 'chip-active': ''}`}
+                        onClick={() => setSelectedCategory(cat)}
+                        >
+                            {cat}
+                        </button>
+                    ))}
                 </div>
             </div>
 
