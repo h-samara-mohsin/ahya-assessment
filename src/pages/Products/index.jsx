@@ -9,46 +9,63 @@ export default function Products() {
     const [error, setError] = useState(null)
     const [search, setSearch] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('All')
+    const [currentPage, setCurrentPage] = useState(1)
+    const ITEMS_PER_PAGE = 6
 
     const debounceSearch = useDebounce(search, 500)
     const categories = ['All', ...new Set(products.map(p => p.category))]
 
-    const fetchProducts = () => {
-        setLoading(true)
-        setError(null)
+    useEffect(() => {
+        const controller = new AbortController()
 
-        fetch('https://dummyjson.com/products?limit=20')
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to fetch products')
-                return res.json()
-            })
-            .then(data => {
-                setProducts(data.products)
-                setLoading(false)
-            })
-            .catch(err => {
-                setError(err.message)
-                setLoading(false)
-            })
-    }
+        const fetchProducts = () => {
+            setLoading(true)
+            setError(null)
 
-    const filteredProducts = products.filter(p =>{
+            fetch('https://dummyjson.com/products?limit=100', {
+                signal: controller.signal      // ← pass signal to fetch
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to fetch products')
+                    return res.json()
+                })
+                .then(data => {
+                    setProducts(data.products)
+                    setLoading(false)
+                })
+                .catch(err => {
+                    if (err.name === 'AbortError') return  // ← ignore cancelled requests
+                    setError(err.message)
+                    setLoading(false)
+                })
+        }
+
+        fetchProducts()
+
+        // cleanup — cancel fetch if component unmounts
+        return () => controller.abort()
+    }, [])
+
+    const filteredProducts = products.filter(p => {
         const matchesSearch = p.title.toLowerCase().includes(debounceSearch.toLowerCase())
         const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory
         return matchesSearch && matchesCategory
     }
     )
 
+    const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
+    const paginatedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
     useEffect(() => {
-        fetchProducts()
-    }, [])
+        setCurrentPage(1) // reset to first page on search/category change
+    }, [debounceSearch, selectedCategory])
 
     return (
         <div className="products-page">
             <div className="products-header">
                 <h2 className="products-title">Products</h2>
                 <p className="products-count">
-                    {loading ? 'Loading...' : `${products.length} items`}
+                    {loading ? 'Loading...' : `Showing ${paginatedProducts.length} of ${filteredProducts.length} products`}
                 </p>
             </div>
 
@@ -76,9 +93,9 @@ export default function Products() {
                 <div className="category-chips">
                     {categories.map(cat => (
                         <button
-                        key={cat}
-                        className={`chip ${selectedCategory === cat ? 'chip-active': ''}`}
-                        onClick={() => setSelectedCategory(cat)}
+                            key={cat}
+                            className={`chip ${selectedCategory === cat ? 'chip-active' : ''}`}
+                            onClick={() => setSelectedCategory(cat)}
                         >
                             {cat}
                         </button>
@@ -116,7 +133,7 @@ export default function Products() {
                     </div>
                 )}
 
-                {!loading && !error && filteredProducts.length > 0 && filteredProducts.map(product => (
+                {!loading && !error && filteredProducts.length > 0 && paginatedProducts.map(product => (
                     <div key={product.id} className="product-card">
                         <div className="card-image-wrapper">
                             <img
@@ -136,6 +153,38 @@ export default function Products() {
                     </div>
                 ))}
             </div>
+
+            {!loading && !error && totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        className="page-btn"
+                        onClick={() => setCurrentPage(p => p - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        ← Prev
+                    </button>
+
+                    <div className="page-numbers">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                            <button
+                                key={page}
+                                className={`page-num ${currentPage === page ? 'page-active' : ''}`}
+                                onClick={() => setCurrentPage(page)}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        className="page-btn"
+                        onClick={() => setCurrentPage(p => p + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next →
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
