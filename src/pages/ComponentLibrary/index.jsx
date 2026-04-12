@@ -3,10 +3,12 @@ import Button from "../../components/Button/Button"
 import Input from "../../components/Input/Input"
 import { Eye, Search } from "lucide-react"
 import Modal from "../../components/Modal/Modal"
+import { useToast } from "../../components/Toast/ToastContext"
 
 export default function ComponentLibrary() {
     const [loading, setLoading] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+    const { addToast } = useToast()
 
     const handleLoadingDemo = () => {
         setLoading(true)
@@ -24,7 +26,7 @@ export default function ComponentLibrary() {
                     <Button variant="primary">Primary</Button>
                     <Button variant="secondary">Secondary</Button>
                     <Button variant="danger">Danger</Button>
-                    <Button variant="outline">Outline</Button>
+                    <Button variant="ghost">Ghost</Button>
                 </div>
             </section>
 
@@ -105,6 +107,43 @@ export default function ComponentLibrary() {
                 >
                     <p>Are you sure you want to proceed? This action cannot be undone.</p>
                 </Modal>
+
+            </section>
+
+            {/* Toast */}
+            <section>
+                <h3 style={{ marginBottom: '16px', color: 'var(--text-secondary)' }}>Toasts</h3>
+
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <Button
+                        variant="primary"
+                        onClick={() => addToast({ type: 'success', message: 'Success!' })}
+                    >
+                        Success
+                    </Button>
+
+                    <Button
+                        variant="danger"
+                        onClick={() => addToast({ type: 'error', message: 'Error!' })}
+                    >
+                        Error
+                    </Button>
+
+                    <Button
+                        variant="secondary"
+                        onClick={() => addToast({ type: 'warning', message: 'Warning!' })}
+                    >
+                        Warning
+                    </Button>
+
+                    <Button
+                        variant="ghost"
+                        onClick={() => addToast({ type: 'info', message: 'Info!' })}
+                    >
+                        Info
+                    </Button>
+                </div>
+
 
             </section>
 
