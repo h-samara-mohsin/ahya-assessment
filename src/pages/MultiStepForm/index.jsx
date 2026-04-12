@@ -112,7 +112,23 @@ export default function MultiStepForm() {
         setSubmitted(true)
     }
 
-    if (submitted) {
+   
+
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && currentStep < 3 && isStepValid) {
+                handleNext()
+            }
+            if (e.key === 'Escape' && currentStep > 1) handleBack()
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+
+        // cleanup — remove listener when component unmounts
+        return () => document.removeEventListener('keydown', handleKeyDown)
+    }, [currentStep, formData, touched])  // re-run when these change
+
+     if (submitted) {
         return (
             <SuccessState onReset={() => {
                 setSubmitted(false)
@@ -123,18 +139,6 @@ export default function MultiStepForm() {
             }} />
         )
     }
-
-    useEffect(() => {
-        function handleKeyDown(e) {
-            if (e.key === 'Enter' && currentStep < 3) handleNext()
-            if (e.key === 'Escape' && currentStep > 1) handleBack()
-        }
-
-        document.addEventListener('keydown', handleKeyDown)
-
-        // cleanup — remove listener when component unmounts
-        return () => document.removeEventListener('keydown', handleKeyDown)
-    }, [currentStep, formData, touched])  // re-run when these change
 
     return (
         <div className="form-page">
