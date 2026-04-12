@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import './Products.css'
 
 export default function Products() {
     const [products, setProducts] = useState([])
@@ -25,12 +26,38 @@ export default function Products() {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error}</p>
 
-    return (
-        <div>
-            <h2>Products ({products.length})</h2>
-            {products.map(p => (
-                <p key={p.id}>{p.title}</p>   
-            ))}
-        </div>
-    )
+   return (
+    <div className="products-page">
+      <div className="products-header">
+        <h2 className="products-title">Products</h2>
+        <p className="products-count">{products.length} items</p>
+      </div>
+
+      <div className="products-grid">
+        {products.map(product => (
+          <div key={product.id} className="product-card">
+
+            <div className="card-image-wrapper">
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="card-image"
+              />
+            </div>
+
+            <div className="card-body">
+              <span className="card-category">{product.category}</span>
+              <h3 className="card-title">{product.title}</h3>
+
+              <div className="card-footer">
+                <span className="card-price">${product.price}</span>
+                <span className="card-rating">⭐ {product.rating}</span>
+              </div>
+            </div>
+
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
