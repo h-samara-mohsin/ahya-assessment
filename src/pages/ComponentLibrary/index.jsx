@@ -2,9 +2,11 @@ import { useState } from "react"
 import Button from "../../components/Button/Button"
 import Input from "../../components/Input/Input"
 import { Eye, Search } from "lucide-react"
+import Modal from "../../components/Modal/Modal"
 
 export default function ComponentLibrary() {
     const [loading, setLoading] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
 
     const handleLoadingDemo = () => {
         setLoading(true)
@@ -81,6 +83,31 @@ export default function ComponentLibrary() {
 
                 </div>
             </section>
+
+            {/* Modal */}
+            <section>
+                <h3 style={{ marginBottom: '16px', color: 'var(--text-secondary)' }}>Modal</h3>
+                <Button onClick={() => setModalOpen(true)}>Open Modal</Button>
+                <Modal
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title="Confirm Action"
+                    footer={
+                        <>
+                            <Button variant="ghost" onClick={() => setModalOpen(false)}>
+                                Cancel
+                            </Button>
+                            <Button variant="primary" onClick={() => setModalOpen(false)}>
+                                Confirm
+                            </Button>
+                        </>
+                    }
+                >
+                    <p>Are you sure you want to proceed? This action cannot be undone.</p>
+                </Modal>
+
+            </section>
+
         </div>
     )
 }
