@@ -1,0 +1,98 @@
+/* Base button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  position: relative;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;   /* prevents double click */
+}
+
+/* ── Variants ── */
+.primary {
+  background: var(--primary);
+  color: white;
+  border: 2px solid var(--primary);
+}
+
+.primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.secondary {
+  background: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--primary-light);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 2px solid var(--border);
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.danger {
+  background: var(--danger);
+  color: white;
+  border: 2px solid var(--danger);
+}
+
+.danger:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* ── Sizes ── */
+.sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.md {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.lg {
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+/* ── Loading spinner ── */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  opacity: 0.8;
+}
