@@ -29,6 +29,7 @@ function App() {
         <main style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
           {activeNav === 'dashboard' && <Dashboard />}
           {activeNav === 'users' && <MultiStepForm />}
+          {activeNav === 'analytics' && <Products />}
         </main>
       </div>
     </div>
