@@ -7,12 +7,15 @@ export default function Products() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
+    const fetchProducts = () => {
         setLoading(true)
         setError(null)
 
-        fetch('https://dummyjson.com/products?limit=20')
-            .then(res => res.json())
+        fetch('https://dummyjson.com/BROKEN_URL')
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to fetch products')
+                return res.json()
+            })
             .then(data => {
                 setProducts(data.products)
                 setLoading(false)
@@ -21,9 +24,13 @@ export default function Products() {
                 setError(err.message)
                 setLoading(false)
             })
+    }
+
+    useEffect(() => {
+        fetchProducts()
     }, [])
 
-    if (loading) return (
+    return (
         <div className="products-page">
             <div className="products-header">
                 <h2 className="products-title">Products</h2>
@@ -33,30 +40,21 @@ export default function Products() {
             </div>
 
             <div className="products-grid">
-                {loading
-                    ? <ProductSkeleton />
-                    : products.map(product => (
-                        <div key={product.id} className="product-card">
-                            {/* ...card content stays same */}
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    )
-    if (error) return <p>Error: {error}</p>
+                {loading && <ProductSkeleton />}
 
-    return (
-        <div className="products-page">
-            <div className="products-header">
-                <h2 className="products-title">Products</h2>
-                <p className="products-count">{products.length} items</p>
-            </div>
+                {!loading && error && (
+                    <div className="error-state">
+                        <span className="error-icon">⚠️</span>
+                        <h3 className="error-title">Something went wrong</h3>
+                        <p className="error-msg">{error}</p>
+                        <button className="retry-btn" onClick={fetchProducts}>
+                            Try Again
+                        </button>
+                    </div>
+                )}
 
-            <div className="products-grid">
-                {products.map(product => (
+                {!loading && !error && products.map(product => (
                     <div key={product.id} className="product-card">
-
                         <div className="card-image-wrapper">
                             <img
                                 src={product.thumbnail}
@@ -64,17 +62,14 @@ export default function Products() {
                                 className="card-image"
                             />
                         </div>
-
                         <div className="card-body">
                             <span className="card-category">{product.category}</span>
                             <h3 className="card-title">{product.title}</h3>
-
                             <div className="card-footer">
                                 <span className="card-price">${product.price}</span>
                                 <span className="card-rating">⭐ {product.rating}</span>
                             </div>
                         </div>
-
                     </div>
                 ))}
             </div>
