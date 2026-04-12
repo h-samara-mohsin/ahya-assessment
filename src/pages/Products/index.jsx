@@ -6,12 +6,13 @@ export default function Products() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [search, setSearch] = useState('')
 
     const fetchProducts = () => {
         setLoading(true)
         setError(null)
 
-        fetch('https://dummyjson.com/BROKEN_URL')
+        fetch('https://dummyjson.com/products?limit=20')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch products')
                 return res.json()
@@ -26,6 +27,10 @@ export default function Products() {
             })
     }
 
+    const filteredProducts = products.filter(p =>
+        p.title.toLowerCase().includes(search.toLowerCase())
+    )
+
     useEffect(() => {
         fetchProducts()
     }, [])
@@ -38,6 +43,14 @@ export default function Products() {
                     {loading ? 'Loading...' : `${products.length} items`}
                 </p>
             </div>
+
+            <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ padding: '8px', marginBottom: '16px', width: '300px' }}
+            />
 
             <div className="products-grid">
                 {loading && <ProductSkeleton />}
@@ -53,7 +66,23 @@ export default function Products() {
                     </div>
                 )}
 
-                {!loading && !error && products.map(product => (
+                {!loading && !error && filteredProducts.length === 0 && (
+                    <div className="empty-state">
+                        <span className="empty-icon">🔍</span>
+                        <h3 className="empty-title">No products found</h3>
+                        <p className="empty-msg">
+                            Try adjusting your search term
+                        </p>
+                        <button
+                            className="retry-btn"
+                            onClick={() => setSearch('')}
+                        >
+                            Clear Search
+                        </button>
+                    </div>
+                )}
+
+                {!loading && !error && filteredProducts.length > 0 && filteredProducts.map(product => (
                     <div key={product.id} className="product-card">
                         <div className="card-image-wrapper">
                             <img
