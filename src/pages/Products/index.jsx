@@ -14,10 +14,8 @@ export default function Products() {
         fetch('https://dummyjson.com/products?limit=20')
             .then(res => res.json())
             .then(data => {
-                setTimeout(() =>{           // ← fake slow network
                 setProducts(data.products)
                 setLoading(false)
-                },3000)
             })
             .catch(err => {
                 setError(err.message)
