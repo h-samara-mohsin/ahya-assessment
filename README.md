@@ -2,7 +2,7 @@
 
 ## 🔗 Live Demo
 
-*Deploying... link will be updated shortly*
+https://ahya-assessment-live.vercel.app/
 
 ## 📦 GitHub Repository
 
@@ -10,7 +10,9 @@ https://github.com/h-samara-mohsin/ahya-assessment
 
 ---
 
-## Setup Instructions
+## Setup Instructions - Run Locally
+
+**Prerequisites:** Node.js v18+ and npm
 
 ```bash
 # Clone the repository
@@ -25,8 +27,19 @@ npm install
 # Run development server
 npm run dev
 ```
+Open http://localhost:5173 in your browser.
 
 ---
+
+
+## Navigation
+
+| Sidebar Item | Page |
+|---|---|
+| Dashboard | Task 1 — Analytics Dashboard |
+| Users | Task 2 — Multi-Step Form |
+| Analytics | Task 3 — Product Listing |
+| Reports | Task 4 — Component Library |
 
 ## Technical Decisions
 
@@ -44,9 +57,7 @@ src/
 
 **Reasoning:**
 
-* Promotes reusability and scalability
-* Keeps UI logic decoupled from business logic
-* Aligns with real-world React architecture
+Pages and components are separated by responsibility. `pages/` contains route-level views that compose the layout. `components/` contains reusable pieces used across multiple pages (Header, Sidebar) or the component library (Button, Input, Modal, Toast).
 
 ---
 
@@ -65,14 +76,8 @@ src/
 
 ### 3. Styling Approach
 
-* CSS Modules used for reusable components (Task 4)
-* Global CSS used for layout and design tokens
-
-**Reasoning:**
-
-* CSS Modules prevent class name collisions
-* Enables scoped, maintainable styling
-* Meets task requirement (no Tailwind for component library)
+- **Tasks 1–3:** Plain CSS with custom properties (CSS variables) defined in `globals.css`. Colors extracted directly from the provided design mockup. This approach demonstrates CSS fundamentals over utility-class shortcuts.
+- **Task 4:** CSS Modules as required — scoped class names prevent any style collisions between components.
 
 ---
 
@@ -111,39 +116,37 @@ Built a small component library:
 
 ### Task 1: Responsive Dashboard
 
-* Collapsible sidebar
-* Responsive grid layout
-* Sortable table
-* Semantic HTML used
+- Built bar chart with pure CSS and dynamic inline `height` styles — avoided importing a charting library for what is essentially styled divs
+- Sidebar collapse uses CSS `width` transition — smooth and performant
+- Table sorting implemented with two state values: `sortField` and `sortDirection`
+- SVG assets provided in the assessment zip were used directly for stat card icons and header icons
 
 ---
 
 ### Task 2: Multi-Step Form
 
-* 3-step onboarding flow
-* Custom validation (no libraries)
-* Keyboard accessible
-* State persists across steps
+- All form state lives in the parent `index.jsx` — single source of truth pattern
+- Custom validation functions written in plain JS — no Formik or Yup as required
+- `touched` object tracks which fields the user has interacted with — prevents showing errors before interaction
+- `useEffect` with document-level keydown listener handles Enter (advance) and Escape (back) keyboard navigation
 
 ---
 
-### Task 3: Product Listing
-
-* API integration
-* Debounced search (300–500ms)
-* Category filters
-* Loading skeleton
-* Error + retry handling
-* Empty state handling
+### Task 3: Async Data Fetching
+- Used native `fetch` instead of axios — assessment preferred avoiding unnecessary dependencies, and fetch is built into every modern browser
+- `AbortController` prevents stale results when component unmounts mid-fetch
+- Custom `useDebounce` hook written in 10 lines — no lodash needed
+- Chose pagination over infinite scroll: simpler implementation, no intersection observer complexity, users can jump to specific pages
+- Filtering (search + category) applied on the frontend from a single fetch of all products
 
 ---
 
 ### Task 4: Component Library
 
-* Built reusable UI components
-* CSS Modules used for styling
-* Toast system implemented using Context API
-* Modal includes focus management and Escape handling
+- CSS Modules used as required — no Tailwind
+- Toast system uses React Context so any component can trigger notifications without prop drilling
+- Modal uses `e.stopPropagation()` to prevent overlay-close from triggering on content clicks
+- Button `pointer-events: none` on disabled state prevents double-click even if `disabled` attribute is bypassed
 
 ---
 
@@ -164,6 +167,20 @@ Built a small component library:
 * Improve mobile polish in some edge cases
 
 ---
+
+## Time Spent Per Task
+
+> Note: Completed across multiple focused sessions within the 48-hour window.
+> Each session included testing before committing — reflected in the commit history.
+
+| Task | Estimated Active Time |
+|---|---|
+| Task 1 — Responsive Dashboard | ~3.5 hours |
+| Task 2 — Multi-Step Form | ~2.5 hours |
+| Task 3 — Async Data Fetching | ~2 hours |
+| Task 4 — Component Library | ~2 hours |
+| Setup, debugging, README, deployment | ~1.5 hours |
+| **Total Active Coding Time** | **~11.5 hours** |
 
 ## Final Notes
 
