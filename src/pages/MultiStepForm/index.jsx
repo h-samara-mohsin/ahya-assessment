@@ -186,7 +186,7 @@ export default function MultiStepForm() {
                         <button
                             className="btn-next"
                             onClick={handleNext}
-                            disabled={currentStep === 1 && !isStepValid}
+                            disabled={!isStepValid}
                         >
                             Next →
                         </button>
