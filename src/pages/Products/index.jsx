@@ -10,6 +10,7 @@ export default function Products() {
     const [search, setSearch] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [currentPage, setCurrentPage] = useState(1)
+    const [retryCount, setRetryCount] = useState(0)  
     const ITEMS_PER_PAGE = 6
 
     const debounceSearch = useDebounce(search, 500)
@@ -22,7 +23,7 @@ export default function Products() {
             setLoading(true)
             setError(null)
 
-            fetch('https://dummyjson.com/products?limit=100', {
+            fetch('https://dummyjson.com/products?limit=20', {
                 signal: controller.signal      // ← pass signal to fetch
             })
                 .then(res => {
@@ -44,7 +45,7 @@ export default function Products() {
 
         // cleanup — cancel fetch if component unmounts
         return () => controller.abort()
-    }, [])
+    }, [retryCount])
 
     const filteredProducts = products.filter(p => {
         const matchesSearch = p.title.toLowerCase().includes(debounceSearch.toLowerCase())
@@ -111,7 +112,7 @@ export default function Products() {
                         <span className="error-icon">⚠️</span>
                         <h3 className="error-title">Something went wrong</h3>
                         <p className="error-msg">{error}</p>
-                        <button className="retry-btn" onClick={fetchProducts}>
+                        <button className="retry-btn" onClick={() => setRetryCount(c => c + 1)}>
                             Try Again
                         </button>
                     </div>
