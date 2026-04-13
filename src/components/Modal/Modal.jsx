@@ -50,7 +50,7 @@ export default function Modal({ isOpen, onClose, title, children , footer, class
       {/* Content — click does NOT close */}
       <div
         ref={modalRef}
-        className={`${styles.modal} ${className}`}
+        className={`${styles.modal} ${className || ''}`}
         onClick={e => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
